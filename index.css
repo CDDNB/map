@@ -17,6 +17,7 @@ p {
     position: absolute;
     width: 600px;
     height: 300px;
+    width: 100%
 }
 
 #container {
