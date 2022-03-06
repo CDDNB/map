@@ -15,8 +15,8 @@ p {
 #test {
     overflow: hidden;
     position: absolute;
-    width: 600px;
-    height: 300px;
+    width: 35em;
+    height: 50em;
     width: 100%
 }
 
