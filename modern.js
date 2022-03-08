@@ -21,13 +21,16 @@ function to_history() {
     document.getElementById("modern").style.display = 'none';
 }
 
+function finish() {
+    certificate.style.display = 'block';
+}
+
 var landmarks = new Array();
 
 //地图
 var map = new BMapGL.Map("modern");
-var rub = new BMapGL.Map("rub");
 var point = new BMapGL.Point(118.764077, 32.086597);//118.78, 32.06);
-map.addControl(new BMapGL.NavigationControl3D());
+//map.addControl(new BMapGL.NavigationControl3D());
 map.centerAndZoom(point, 16); // 初始化地图，设置中心点坐标和地图级别 
 map.setMapStyleV2({ styleId: 'e7c8f51a84922c56ac0884f7b85b2356' });
 map.enableScrollWheelZoom(true);
@@ -43,12 +46,17 @@ function landmark(index, map_x, map_y, src, img) {
     this.img = img;
     this.marker.addEventListener("click", function() {
         this.removeEventListener("click", arguments.callee);
+        if (state > index)
+            return;
         if(index < 9) {
-            landmarks[index+1].modern_init();
-            landmarks[index].walk();
+            state += 1;
+            localStorage.setItem("state", state);
+            console.log(state, localStorage.getItem("state"));
+            //landmarks[index+1].modern_init();
+            landmarks[index].walk(20);
         }
         else {
-            certificate.style.display = 'block';
+            finish();
         }
     });
 }
@@ -69,32 +77,41 @@ landmarks[9] = new landmark(9, 118.784569, 32.049938, "img/s9.png", document.get
 landmarks[1].modern_init();
 
 //紫金草
-var moveIcon = new BMapGL.Icon("img/icon.png", new BMapGL.Size(32, 60));
+var moveIcon = new BMapGL.Icon("img/icon.png", new BMapGL.Size(32, 32));
 var moveMarker = new BMapGL.Marker(landmarks[1].point, {icon: moveIcon});
-var pts = [];//生成轨迹
-var state = 1;//状态
+var pts = [[], [], [], [], [], [], [], []];//生成轨迹
+var state;//状态
 
-landmark.prototype.walk = function() {
+landmark.prototype.walk = function(speed) {
+    let index = this.index;
+    landmarks[index+1].modern_init();
     var walking = new BMapGL.WalkingRoute(map);
     walking.search(this.point, landmarks[this.index+1].point);
     walking.setSearchCompleteCallback(function() {
-        pts = walking.getResults().getPlan(0).getRoute(0).getPath();
+        pts[index-1] = walking.getResults().getPlan(0).getRoute(0).getPath();
+
+        if(speed == 0) {
+            let poly = new BMapGL.Polyline(pts[index-1]);
+            map.addOverlay(poly);
+            return;
+        }
+
         setTimeout(function () {   
             map.setDisplayOptions({
                 poiText: false,  // 隐藏poi标注
                 poiIcon: false,  // 隐藏poi图标
-            });      
-            playvideo();
+            });    
+            playvideo(index - 1, speed);
         }, 1000);  
     })
 };
 
-function playvideo() {   
+function playvideo(index, speed) {   
 
     //轨迹动画
-    let ptss = [pts[0]];
+    let ptss = [pts[index][0]];
     let num = 0;
-    pts.forEach(function(item) {
+    pts[index].forEach(function(item) {
         if(item.lng != ptss[num].lng || item.lat != ptss[num].lat) {
             num++;
             ptss[num] = item;
@@ -146,7 +163,6 @@ function playvideo() {
     map.addOverlay(moveMarker);         
     var i = 0;         
     function resetMkPoint(i) {
-
         //trace
         let ptsss = [ptss[i-1], ptss[i]];
         let pl = new BMapGL.Polyline(ptsss);
@@ -165,18 +181,35 @@ function playvideo() {
         if (i < ptss.length) {         
             setTimeout(function () {                  
             resetMkPoint(i);
-            }, 20);         
+            }, speed);         
         } 
         else {
             map.removeOverlay(moveMarker);
             map.setDisplayOptions({
                 poiText: true,  // 隐藏poi标注
-                poiIcon: true,  // 隐藏poi图标
+                poiIcon: true  // 隐藏poi图标
             });
+            //console.log("im here");
         }         
     }
     setTimeout(function () {         
     resetMkPoint(1);         
-    }, 2)         
+    }, speed);         
 }
 
+function init() {
+    state = localStorage.getItem("state");
+    if(state == null || state > 9) {
+        state = 1;
+        localStorage.setItem("state", state);
+    }
+    else {
+        state = Number(state);
+        for (i = 1; i < state; i++) {
+            landmarks[i].walk(0);
+        }
+        if (state == 9) {
+            finish();
+        }
+    }
+};init();
