@@ -9,29 +9,59 @@ body {
     padding: 0px
 }
 
-p {
-    margin: 1em 0 1em 0;
-    line-height: 1.5em
-}
-
 .container {
     position: absolute;
     overflow: hidden;
     height: 45em;
-    width: 25em;
+    width: 24em;
     font-family: "微软雅黑";
 }
 
-#button {
+.button {
+    z-index: 10;
     position: absolute;
-    overflow: hidden;
-    top:62em;
-    height: 10em;
-    width: 20em;
-    text-align: center;
+    top: 37em;
+    height: 4em;
+    width: 6em;
+    border:none;
+    text-align: center;}
+    #button1 {
+        left:4em;
+        background: url("img/button11.png") no-repeat;
+        background-size: 100%;
+        background-position: center;
+    }
+    #button2 {
+        left: 14em;
+        background: url("img/button2.png") no-repeat;
+        background-size: 100%;
+        background-position: center;
+    }
+
+.background{
+    width: 100%;
+    top: 20px;
+    position: absolute;
+}
+.landmark {
+    transform: scale(0.27);
+    position: absolute;
+    width: 100%;}
+    #l1 {left: -7em; top: -7em;}
+    #l2 {left: 1em; top:5em;}
+    #l3 {left: 6em; top:3em;}
+    #l4 {left: 9em; top:7em;}
+    #l5 {left: 9em; top:11.5em;}
+    #l6 {left: 3em; top:10em;}
+    #l7 {left: -1em; top:14em;}
+    #l8 {left: 9em; top:16em;}
+    #l9 {left: 6.5em; top: 20em;}
+
+#certificate {
+    z-index: 9;
 }
 
-.img {
-    overflow: hidden;
-    width: 100%;
+p {
+    margin: 1em 0 1em 0;
+    line-height: 1.5em
 }

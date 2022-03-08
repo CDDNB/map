@@ -12,19 +12,32 @@
     <script type="text/javascript" src="http://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
     <script type="text/javascript" src="http://unpkg.com/view-design/dist/iview.min.js"></script>
     <script src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=4sgTiM37ksH6mbDy4rmGyg4hoAzlEfaS"></script>
+    <script src="https://api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script>
     <link href="index.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body> 
-    <button id = "button" onclick = "func()">
-        <img class = "img" src="img/lantern.png">OK
-    </button>
-    
+    <div id="rub"></div>
     <div id="modern" class="container"></div>
 
-    <div id="history" class="container">
-        <img class = "img" src = "img/map.png">
+    <div id="history" class="container" style="background-color: #c9ac85;">
+        <img class = "background" src = "img/map.png">
+        <img class = "landmark" id = "l1" src = "img/1.png">
+        <img class = "landmark" id = "l2" src = "img/2.png">
+        <img class = "landmark" id = "l3" src = "img/3.png">
+        <img class = "landmark" id = "l4" src = "img/4.png">
+        <img class = "landmark" id = "l5" src = "img/5.png">
+        <img class = "landmark" id = "l6" src = "img/6.png">
+        <img class = "landmark" id = "l7" src = "img/7.png">
+        <img class = "landmark" id = "l8" src = "img/8.png">
+        <img class = "landmark" id = "l9" src = "img/9.png">
     </div>
 
-    <script src="index.js"></script>
+    <img id = "certificate" class = "container" src = "img/icon_raw.png">
+
+    <button id = "button1" class = "button" onclick = "to_history()"></button>
+    <button id = "button2" class = "button" onclick = "to_modern()"></button>
+
+    
+    <script src = "modern.js"></script>
 </body>
