@@ -4,35 +4,38 @@ html {
 
 body {
     position: relative;
-    width: 50%;
-    margin: 0px;
+    width: 100%;
+    height:100%;
+    margin: auto;
     padding: 0px;
 }
 
 .container {
     position: absolute;
     overflow: hidden;
-    height: 47em;
-    width: 28em;
+    width: 100%;
+    padding-bottom: 160%;
+    margin:auto;
     font-family: "微软雅黑";
 }
 
 .button {
     z-index: 10;
     position: absolute;
-    top: 37em;
-    height: 4em;
-    width: 6em;
+    margin: auto;
+    width: 22%;
+    margin-top: 135%;
+    padding-bottom: 15%;
     border:none;
     text-align: center;}
     #button1 {
-        left:5em;
+        left:20%;
         background: url("img/button11.png") no-repeat;
         background-size: 100%;
         background-position: center;
     }
     #button2 {
-        left: 17em;
+        left: 58%;
         background: url("img/button2.png") no-repeat;
         background-size: 100%;
         background-position: center;
@@ -40,22 +43,23 @@ body {
 
 .background{
     width: 100%;
-    top: 20px;
+    
     position: absolute;
 }
 .landmark {
-    transform: scale(0.27);
     position: absolute;
-    width: 100%;}
-    #l1 {left: -7em; top: -7em;}
-    #l2 {left: 1em; top:5em;}
-    #l3 {left: 6em; top:3em;}
-    #l4 {left: 9em; top:7em;}
-    #l5 {left: 9em; top:11.5em;}
-    #l6 {left: 3em; top:10em;}
-    #l7 {left: -1em; top:14em;}
-    #l8 {left: 9em; top:16em;}
-    #l9 {left: 6.5em; top: 20em;}
+    width: 100%;
+    transform: scale(0.24);
+}
+    #l1 {transform: scale(0.20); left: -28%; top: -20%;}
+    #l2 {transform: scale(0.22); left: 5%; top:9%;}
+    #l3 {left: 23%; top:6%;}
+    #l4 {left: 38%; top:15%;}
+    #l5 {left: 26%; top:23%;}
+    #l6 {left: 10%; top:25%;}
+    #l7 {left: -5%; top:32%;}
+    #l8 {left: 40%; top:35%;}
+    #l9 {transform: scale(0.30); left: 26%; top:46%;}
 
 #certificate {
     z-index: 9;
