@@ -8,36 +8,49 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/view-design/dist/styles/iview.css">
-    <script type="text/javascript" src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/view-design/dist/iview.min.js"></script>
+    
     <script src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=4sgTiM37ksH6mbDy4rmGyg4hoAzlEfaS"></script>
     <script src="https://api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script>
     <link href="index.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body> 
-    <div id="rub"></div>
     <div id="modern" class="container"></div>
 
     <div id="history" class="container" style="background-color: #c9ac85;">
         <img class = "background" src = "img/map.png">
-        <img class = "landmark" id = "l1" src = "img/1.png">
-        <img class = "landmark" id = "l2" src = "img/2.png">
-        <img class = "landmark" id = "l3" src = "img/3.png">
-        <img class = "landmark" id = "l4" src = "img/4.png">
-        <img class = "landmark" id = "l5" src = "img/5.png">
-        <img class = "landmark" id = "l6" src = "img/6.png">
-        <img class = "landmark" id = "l7" src = "img/7.png">
-        <img class = "landmark" id = "l8" src = "img/8.png">
-        <img class = "landmark" id = "l9" src = "img/9.png">
+        <div class = "landmark" id = "l1"></div>
+        <div class = "landmark" id = "l2"></div>
+        <div class = "landmark" id = "l3"></div>
+        <div class = "landmark" id = "l4"></div>
+        <div class = "landmark" id = "l5"></div>
+        <div class = "landmark" id = "l6"></div>
+        <div class = "landmark" id = "l7"></div>
+        <div class = "landmark" id = "l8"></div>
+        <div class = "landmark" id = "l9"></div>
+        <div id = "introduction" class = "question">
+            <font id = "introduction_word" class = "font" size = "4">拉贝日记与和平城市</font>
+            <font id = "introduction_name" class = "name" size = "6">国际安全区</font>
+        </div>
+        <div id = "pic"></div>
     </div>
 
-    <img id = "certificate" class = "container" src = "img/icon_raw.png">
+    <img id = "gif" src = "gif.gif">
+
+    <canvas id = "canvas" class = "container" width="1920" height="1080"></canvas>
+
+    <input type="file" name = "questions.txt" id = "file" src = "questions.txt">
 
     <button id = "button1" class = "button" onclick = "to_history()"></button>
     <button id = "button2" class = "button" onclick = "to_modern()"></button>
 
+    <div id = "question" class = "question">
+        <!--img id = "box" class = "background" src = "img/card_modern.png"-->
+        <font id = "name" class = "name" size = "6">国际安全区</font>
+        <font id = "font" size="4" class = "font">拉贝日记与和平城市</font>
+        <button id = "choice1" class = "choice" onclick = "answer_yes()">正确</button>
+        <button id = "choice2" class = "choice" onclick = "answer_no()">错误</button>
+    </div>
     
     <script src = "modern.js"></script>
 </body>
