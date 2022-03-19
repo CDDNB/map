@@ -1,6 +1,9 @@
-document.getElementById("modern").style.display = 'none';
+document.getElementById("history").style.display = 'none';
 document.getElementById("gif").style.display = 'none';
 document.getElementById("canvas").style.display = 'none';
+var modern = document.getElementById("modern");
+var body = modern.parentElement;
+//mod.parentNode.removeChild(mod);
 var question = document.getElementById("question");
 question.style.display = 'none';
 var introduction = document.getElementById("introduction");
@@ -53,8 +56,11 @@ function answer_correct() {
         document.getElementById("gif").style.display = 'block';
         setTimeout(function() {
             document.getElementById("gif").style.display = 'none';
-            landmarks[state-1].walk(20);
-        }, 4000);
+            map.setDisplayOptions({
+                poi: false
+            });
+            landmarks[state-1].walk(50);
+        }, 0);
     },0);
 }
 
@@ -84,9 +90,9 @@ var map = new BMapGL.Map("modern");
 //map.setMapStyleV2({ styleId: 'e7c8f51a84922c56ac0884f7b85b2356' });
 map.enableScrollWheelZoom(true);
 map.setTilt(45);
-map.setMapStyleV2({
-    feathers: 'road point water building'
-});
+
+//var style1 = new BMapGL.MapStyle("feathers: 'road point water building'");
+//map.setMapStyleV2(style1);
 
 //地标
 function landmark(index, name, map_x, map_y, src, pic) {
@@ -133,8 +139,9 @@ function landmark(index, name, map_x, map_y, src, pic) {
             if(landmarks[index].on_introduction > landmarks[index].introduction_word.length) {
                 this.style.display = 'none';
                 introduction.removeEventListener("click", arguments.callee);
-                picture.style.backgroundImage = pic;
+                picture.style.backgroundImage = landmarks[index].pic;
                 picture.style.display = 'block';
+
             }
             else {
                 document.getElementById("introduction_word").innerHTML = landmarks[index].introduction_word[landmarks[index].on_introduction-1];
@@ -147,15 +154,15 @@ landmark.prototype.modern_init = function() {
 }
 
 landmarks[0] = null;
-landmarks[1] = new landmark(1, "国民政府交通部", 118.764077, 32.086597, "img/s1.png", "src/1.jpg");
-landmarks[2] = new landmark(2, "安全区国际委员会总部", 118.775927, 32.070405, "img/s2.png", "src/2.jpeg");
-landmarks[3] = new landmark(3, "华侨招待所", 118.782470, 32.071342, "img/s3.png", "src/3.jpeg");
-landmarks[4] = new landmark(4, "鼓楼医院", 118.789756, 32.063179, "img/s4.png", "src/4.jpg");
-landmarks[5] = new landmark(5, "赛珍珠纪念馆", 118.787487, 32.063273, "img/s5.png", "src/5.jpg");
-landmarks[6] = new landmark(6, "金陵大学", 118.784773, 32.061284, "img/s6.png", "src/6.jpg");
-landmarks[7] = new landmark(7, "金陵女子文理学院", 118.775830, 32.059739, "img/s7.png", "src/7.jpg");
-landmarks[8] = new landmark(8, "拉贝故居", 118.789863, 32.056754, "img/s8.png", "src/8.jpg");
-landmarks[9] = new landmark(9, "金陵神学院", 118.784569, 32.049938, "img/s9.png", "src/9.jpg");
+landmarks[1] = new landmark(1, "国民政府交通部", 118.764077, 32.086597, "img/s1.png", "url('src/1.jpg')");
+landmarks[2] = new landmark(2, "安全区国际委员会总部", 118.775927, 32.070405, "img/s2.png", "url('src/2.jpeg')");
+landmarks[3] = new landmark(3, "华侨招待所", 118.782470, 32.071342, "img/s3.png", "url('src/3.jpeg')");
+landmarks[4] = new landmark(4, "鼓楼医院", 118.789756, 32.063179, "img/s4.png", "url('src/4.jpg')");
+landmarks[5] = new landmark(5, "赛珍珠纪念馆", 118.787487, 32.063273, "img/s5.png", "url('src/5.jpg')");
+landmarks[6] = new landmark(6, "金陵大学", 118.784773, 32.061284, "img/s6.png", "url('src/6.jpg')");
+landmarks[7] = new landmark(7, "金陵女子文理学院", 118.775830, 32.059739, "img/s7.png", "url('src/7.jpg')");
+landmarks[8] = new landmark(8, "拉贝故居", 118.789863, 32.056754, "img/s8.png", "url('src/8.jpg')");
+landmarks[9] = new landmark(9, "金陵神学院", 118.784569, 32.049938, "img/s9.png", "url('src/9.jpg')");
 landmarks[1].modern_init();
 
 //紫金草
@@ -222,8 +229,9 @@ function playvideo(index, speed) {
         else {
             map.removeOverlay(moveMarker);
 
-
-
+            map.setDisplayOptions({
+                poi:true
+            });
             //location.reload();
 
 
@@ -280,6 +288,23 @@ function init() {
         }
     }
     file_.send();
+
+    var preload_queue = [
+        ["src/1.jpg"],
+        ["src/2.jpeg"],
+        ["src/3.jpeg"],
+        ["src/4.jpg"],
+        ["src/5.jpg"],
+        ["src/6.jpg"],
+        ["src/7.jpg"],
+        ["src/8.jpg"],
+        ["src/9.jpg"]
+    ];
+    for(k = 0; k < preload_queue.length; k++) {
+        var t = new Image();
+        t.src = preload_queue[k];
+    }
+
     
 };init();
 

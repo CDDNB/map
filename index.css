@@ -92,6 +92,9 @@ body {
     left: 15%;
     top: 10%;
 }
+#introduction_word {
+    top:7%;
+}
 .name {
     color: #906855;
     position: absolute;
@@ -100,6 +103,14 @@ body {
     width: 70%;
     top:80%;
     left: 15%;
+}
+#mark {
+    color: #906855;
+    position: absolute;
+    text-align: right;
+    left: 35%;
+    width: 60%;
+    top: 95%;
 }
 
 .landmark {
