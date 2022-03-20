@@ -15,6 +15,10 @@
 </head>
 
 <body> 
+    <input id = "username" type = "text" placeholder = "请输入昵称">
+    <button id = "userbutton" onclick="username_submit()">开始</button>
+
+    <div id = "all">
     <div id="modern" class="container"></div>
 
     <div id="history" class="container" style="background-color: #c9ac85;">
@@ -37,10 +41,10 @@
 
     <img id = "gif" src = "gif.gif">
 
-    <canvas id = "canvas" class = "container" width="1920" height="1080"></canvas>
-
     <button id = "button1" class = "button" onclick = "to_history()"></button>
     <button id = "button2" class = "button" onclick = "to_modern()"></button>
+
+    <canvas id = "canvas" class = "container" width="2480" height="3969"></canvas>
 
     <div id = "question" class = "question">
         <!--img id = "box" class = "background" src = "img/card_modern.png"-->
@@ -50,6 +54,27 @@
         <button id = "choice1" class = "choice" onclick = "answer_yes()">正确</button>
         <button id = "choice2" class = "choice" onclick = "answer_no()">错误</button>
     </div>
+    </div>
+
+    <a id = "a" href="img/card_modern.png" download="certificate">
+        <div id = "save">点击保存证书</button>
+    </a>
+    
+    <audio preload autoplay loop id = "bgm">
+        <source src = "sound/imagine.mp3"/>
+    </audio>
+    <audio preload id = "book">
+        <source src = "sound/book.wav"/>
+    </audio>
+    <audio preload id = "click">
+        <source src = "sound/click.wav"/>
+    </audio>
+    <audio preload id = "walk">
+        <source src = "sound/walk.wav"/>
+    </audio>
+    <audio preload id = "bird">
+        <source src = "sound/bird.wav"/>
+    </audio>
     
     <script src = "modern.js"></script>
 </body>

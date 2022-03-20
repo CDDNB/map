@@ -1,6 +1,32 @@
+function username_submit() {
+    click.play();
+    //finish();
+    username = document.getElementById("username").value;
+    if (username != "") {
+        //temp
+        bgm.play();
+
+        localStorage.setItem("name", username);
+        document.getElementById("username").style.display = 'none';
+        document.getElementById("userbutton").style.display = 'none';
+        document.getElementById("all").style.left = "0";
+        map.setCenter(landmarks[state].point);
+        //console.log(map.getCenter());
+    }
+}
+
+//sounds
+var bgm = document.getElementById("bgm");
+var book = document.getElementById("book");
+var walk = document.getElementById("walk");
+var click = document.getElementById("click");
+var bird = document.getElementById("bird");
+
 document.getElementById("history").style.display = 'none';
 document.getElementById("gif").style.display = 'none';
-document.getElementById("canvas").style.display = 'none';
+document.getElementById("save").style.display = 'none';
+var canvas = document.getElementById("canvas");
+canvas.style.display = 'none';
 var modern = document.getElementById("modern");
 var body = modern.parentElement;
 //mod.parentNode.removeChild(mod);
@@ -15,9 +41,12 @@ picture.addEventListener("click", function() {
 })
 var question_text = document.getElementById("font");
 var correct_answer = -1;
+var username = "";
 
 //按钮
 function to_modern() {
+    finish();
+    click.play();
     document.getElementById("button2").style.backgroundImage = "url('img/button2.png')";
     document.getElementById("modern").style.display = 'block';
     document.getElementById("button1").style.backgroundImage = "url('img/button11.png')";
@@ -27,6 +56,7 @@ function to_modern() {
     }
 }
 function to_history() {
+    click.play();
     document.getElementById("button1").style.backgroundImage = "url('img/button1.png')";
     document.getElementById("history").style.display = 'block';
     document.getElementById("button2").style.backgroundImage = "url('img/button22.png')";
@@ -34,19 +64,27 @@ function to_history() {
     question.style.display = 'none';
 }
 function answer_yes() {
+    click.play();
     document.getElementById("choice1").style.backgroundImage = "url('img/choice_focus.png')";
     document.getElementById("choice2").style.backgroundImage = "url('img/choice.png')";
     if (correct_answer == 1) {
         document.getElementById("choice1").style.backgroundImage = "url('img/choice.png')";
         answer_correct();
     }
+    else {
+        answer_wrong(document.getElementById("choice1"));
+    }
 }
 function answer_no() {
+    click.play();
     document.getElementById("choice1").style.backgroundImage = "url('img/choice.png')";
     document.getElementById("choice2").style.backgroundImage = "url('img/choice_focus.png')";
     if (correct_answer == 0) {
         document.getElementById("choice2").style.backgroundImage = "url('img/choice.png')";
         answer_correct();
+    }
+    else {
+        answer_wrong(document.getElementById("choice2"));
     }
 }
 function answer_correct() {
@@ -54,28 +92,59 @@ function answer_correct() {
     setTimeout(function(){
         question.style.display = 'none';
         document.getElementById("gif").style.display = 'block';
+        bird.play();
         setTimeout(function() {
             document.getElementById("gif").style.display = 'none';
+            if(state == 10) {
+                finish();
+                return;
+            };
             map.setDisplayOptions({
                 poi: false
             });
             landmarks[state-1].walk(50);
-        }, 0);
+        }, 3700);
     },0);
+}
+function answer_wrong(this_choice) {
+    let t1 = setInterval(function() {
+        this_choice.style.left = "5%";
+    }, 10);
+    let t2 = setInterval(function() {
+        this_choice.style.left = ("-5%");
+    },20);
+    let t3 = setInterval(function() {
+        this_choice.style.left = ("0");
+    }, 15);
+    setTimeout(function() {
+        window.clearInterval(t1);
+        window.clearInterval(t2);
+        window.clearInterval(t3);
+        this_choice.style.left = "0";
+        this_choice.style.backgroundImage = "url('img/choice.png')";
+    }, 300);
 }
 
 function finish() {
-    var canvas = document.getElementById("canvas");
+    book.play();
+    //document.getElementById("modern").style.display = 'none';
     var ctx = canvas.getContext("2d");
-    ctx.font = "40px Georgia";
-    ctx.fillText("Mr. Peace", 0, 0);
     var img = new Image();
-    img.src = "img/icon_raw.png";
+    img.setAttribute("crossOrigin", "anonymous");
+    img.src = "img/certificate.png";
     img.onload = function() {
         ctx.drawImage(img, 0, 0);
-        //var a = document.getElementByIdById("a");
-        //a.href = canvas.toDataURL();
+        ctx.font = "100px Arial";
+        ctx.textAlign = 'center';
+        ctx.fillText(username, 1115, 1970);
+        var a = document.getElementById("a");
+        let url = canvas.toDataURL();
+        console.log(a.href);
+        a.setAttribute("href", url);
+        console.log(a.href);
     }
+    canvas.style.display = 'block';
+    document.getElementById("save").style.display = 'block';
     canvas.addEventListener("click", function() {
         canvas.style.display = 'none';
     });
@@ -109,30 +178,36 @@ function landmark(index, name, map_x, map_y, src, pic) {
 
     //modern
     this.marker.addEventListener("click", function() {
-        this.removeEventListener("click", arguments.callee);
-        question.style.display = 'block';
-        question_text.innerHTML = landmarks[index].questions[0][0];
-        document.getElementById("name").innerHTML = landmarks[index].name;
-        correct_answer = landmarks[index].questions[0][1];
+        if (index < 9)
+            this.removeEventListener("click", arguments.callee);
+        if (state == 10)
+            finish();
         if (state > index)
             return;
-        if(index < 9) {
+        if(index <= 9) {
             state += 1;
             localStorage.setItem("state", state);
             //console.log(index, state);
             //landmarks[index+1].modern_init();
             //landmarks[index].walk(20);
         }
+        book.play();
+        question.style.display = 'block';
+        question_text.innerHTML = landmarks[index].questions[0][0];
+        document.getElementById("name").innerHTML = landmarks[index].name;
+        correct_answer = landmarks[index].questions[0][1];
     });
 
     let id = "l" + index;
     //old
     document.getElementById(id).addEventListener("click", function() {
+        book.play();
         landmarks[index].on_introduction = 1;
         document.getElementById("introduction_name").innerHTML = landmarks[index].name;
         document.getElementById("introduction_word").innerHTML = landmarks[index].introduction_word[0];
         introduction.style.display = "block";
         introduction.addEventListener("click", function() {
+            book.play();
             //console.log(landmarks[index].on_introduction, landmarks[index].name);
             //alert("?");
             landmarks[index].on_introduction++;
@@ -172,6 +247,8 @@ var pts = [[], [], [], [], [], [], [], []];//生成轨迹
 var state;//状态
 
 landmark.prototype.walk = function(speed) {
+    if(speed != 0)
+        walk.play();
     let index = this.index;
     landmarks[index+1].modern_init();
     var walking = new BMapGL.WalkingRoute(map);
@@ -221,14 +298,15 @@ function playvideo(index, speed) {
         //marker
         moveMarker.setPosition(ptss[i]);
         i++;         
-        if (i < ptss.length) {         
+        if (i < ptss.length) {      
+            console.log(i);   
             setTimeout(function () {                  
             resetMkPoint(i);
             }, speed);         
         } 
         else {
             map.removeOverlay(moveMarker);
-
+            walk.pause();
             map.setDisplayOptions({
                 poi:true
             });
@@ -244,22 +322,35 @@ function playvideo(index, speed) {
 }
 
 function init() {
+    username = localStorage.getItem("name");
+    if(username == null) {
+        document.getElementById("all").style.left = "-100%";
+    }
+    else {
+        document.getElementById("username").style.display = 'none';
+        document.getElementById("userbutton").style.display = 'none';
+    }
+
     //modern
     state = localStorage.getItem("state");
     if(state == null || state > 9) {
         state = 1;
         localStorage.setItem("state", state);
+        map.centerAndZoom(landmarks[state].point, 16);
     }
     else {
         state = Number(state);
         for (i = 1; i < state; i++) {
             landmarks[i].walk(0);
         }
-        if (state == 9) {
+        map.centerAndZoom(landmarks[state].point, 16);
+        if (state == 10) {
+            map.centerAndZoom(landmarks[9].point, 16);
             finish();
         }
     }
-    map.centerAndZoom(landmarks[state].point, 16);
+    //console.log(landmarks[state].point);
+    
 
     const file = new XMLHttpRequest();
     file.open("GET", "questions.txt", true);
@@ -290,6 +381,8 @@ function init() {
     file_.send();
 
     var preload_queue = [
+        ["img/card_modern.png"],
+        ["img/card_old.png"],
         ["src/1.jpg"],
         ["src/2.jpeg"],
         ["src/3.jpeg"],

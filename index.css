@@ -108,7 +108,7 @@ body {
     color: #906855;
     position: absolute;
     text-align: right;
-    left: 35%;
+    left: 30%;
     width: 60%;
     top: 95%;
 }
@@ -209,4 +209,25 @@ body {
     background: url("src/1.jpg")no-repeat;
     background-size: 100%;
     background-position: center;
+}
+
+#all {
+    width: 100%;
+    position: absolute;
+}
+
+#canvas {
+    z-index: 11;
+}
+
+#save {
+    z-index: 12;
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    margin-top: 100%;
+    text-align: center;
+    text-decoration: underline;
+    border: none;
+    background: transparent;
 }
