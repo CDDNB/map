@@ -130,6 +130,7 @@ function finish() {
     //document.getElementById("modern").style.display = 'none';
     var ctx = canvas.getContext("2d");
     var img = new Image();
+    var Url;
     img.setAttribute("crossOrigin", "anonymous");
     img.src = "img/certificate.png";
     img.onload = function() {
@@ -138,15 +139,24 @@ function finish() {
         ctx.textAlign = 'center';
         ctx.fillText(username, 1115, 1970);
         var a = document.getElementById("a");
-        let url = canvas.toDataURL();
+        Url = canvas.toDataURL();
         console.log(a.href);
-        a.setAttribute("href", url);
+        a.setAttribute("href", Url);
         console.log(a.href);
     }
     canvas.style.display = 'block';
     document.getElementById("save").style.display = 'block';
     canvas.addEventListener("click", function() {
-        canvas.style.display = 'none';
+        //canvas.style.display = 'none';
+        var blob = new Blob([''], { type: 'application/octet-stream' });
+		var url = URL.createObjectURL(blob);
+		var aa = document.createElement('aa');
+		aa.href = Url;
+		aa.download = Url.replace(/(.*\/)*([^.]+.*)/ig, "$2").split("?")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		aa.dispatchEvent(e);
+		URL.revokeObjectURL(url);
     });
 }
 
