@@ -19,6 +19,7 @@ function username_submit() {
 
 //sounds
 var bgm = document.getElementById("bgm");
+bgm.volume = 0.5;
 var book = document.getElementById("book");
 var walk = document.getElementById("walk");
 var click = document.getElementById("click");
@@ -26,7 +27,17 @@ var bird = document.getElementById("bird");
 
 document.getElementById("history").style.display = 'none';
 document.getElementById("gif").style.display = 'none';
-document.getElementById("save").style.display = 'none';
+var save = document.getElementById("save");
+save.style.display = 'none';
+save.addEventListener("click", function() {
+    //alert("?");
+    save.removeEventListener("click", arguments.callee);
+    save.parentNode.removeChild(this);
+    let save_a = document.getElementById("save_a");
+    save_a.parentNode.removeChild(save_a);
+});
+
+
 var canvas = document.getElementById("canvas");
 canvas.style.display = 'none';
 var modern = document.getElementById("modern");
@@ -47,7 +58,7 @@ var username = "";
 
 //按钮
 function to_modern() {
-    finish();
+    //finish();
     click.play();
     document.getElementById("button2").style.backgroundImage = "url('img/button2.png')";
     document.getElementById("modern").style.display = 'block';
@@ -132,13 +143,49 @@ function finish() {
     //document.getElementById("modern").style.display = 'none';
     
     canvas.style.display = 'block';
-    document.getElementById("save").style.display = 'block';
+    save.style.display = 'block';
     canvas.addEventListener("click", function() {
-        //canvas.style.display = 'none';
-        //document.getElementById("save").style.display = 'none';
-        
+        book.play();
+        canvas.style.display = 'none';
+        save.style.display = 'none';
     });
 }
+
+
+/*function savePicture(url) {undefined
+    console.log("here");
+    // 创建下载任务
+    picurl=url;
+    //图片保存到手机后的路径
+    picname="htmlplus";
+    var dtask = plus.downloader.createDownload(picurl, {}, function ( d, status ) {
+    // 下载完成
+    if ( status == 200 ) { 
+    //  alert( "Download success: " + d.filename );
+    plus.gallery.save(picname,function() {//保存到相册方法
+    mui.toast('已保存到手机相册');
+    }, function() {
+    mui.toast('保存失败，请重试！');
+    });
+    } else {
+    //  alert( "Download failed: " + status ); 
+    }
+    });
+    //dtask.addEventListener( "statechanged", onStateChanged, false );
+    dtask.start();//开始下载
+    console.log("started");
+   }*/
+
+
+
+
+
+
+
+
+
+
+
 
 var landmarks = new Array();
 
@@ -323,6 +370,7 @@ function make_certificate() {
         ctx.fillText(username, 1250, 2300);
         var a = document.getElementById("a");
         let url = canvas.toDataURL();
+        //savePicture(url);
         //console.log(a.href);
         a.setAttribute("href", url);
         //console.log(a.href);
@@ -332,17 +380,17 @@ function make_certificate() {
 function init() {
     username = localStorage.getItem("name");
     if(username == null) {
-        document.getElementById("all").style.left = "-100%";
+        //document.getElementById("all").style.left = "-100%";
     }
     else {
-        document.getElementById("username").style.display = 'none';
-        document.getElementById("userbutton").style.display = 'none';
+        document.getElementById("username").value = username;
+        //document.getElementById("userbutton").style.display = 'none';
         make_certificate();
     }
 
     //modern
     state = localStorage.getItem("state");
-    if(state == null || state > 9) {
+    if(state == null || state > 10) {
         state = 1;
         localStorage.setItem("state", state);
         map.centerAndZoom(landmarks[state].point, 16);
